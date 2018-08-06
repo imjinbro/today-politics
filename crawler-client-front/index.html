@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- IE -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+        
+        <link rel="stylesheet" href="init-style.css">
+        <link rel="stylesheet" href="style.css">            
+    </head>
+    <body>        
+        <!-- header : 로고 -->
+        <header>
+            <div id="logo">
+                <a href=""></a>            
+            </div>
+        </header>
+        
+
+        <!-- nav : 랭킹 홈, 토론 + 제작? -->
+        <nav>
+            <ul id="nav_menu">
+                <li class="nav_target"><a href="/" id="nav_home">홈</a></li>
+                <li class="nav_target"><a href="" id="nav_history">히스토리</a></li>
+                <!-- 로그인O/X에 따라서 로그인/로그아웃 : 로그인 라우팅하고 flash로 데이터 보냄? 혹은 세션 체크? 으로 나뉨 -->                
+                <li class="nav_target"><a href="/user/signin" id="nav_signin">로그인</a></li> 
+                <!--<li class="nav_target"><a href="/user/signout" id="nav_signout">로그아웃</a></li>-->
+            </ul>
+        </nav>
+
+
+        <!-- body : 랭킹, 설명 -->
+        <article>                          
+            <!-- content : ranking, description -->
+            <div id="content">                
+                <div class="content_top">
+                    <h2>대제목</h2>                    
+                    <hr />
+                    <p>소제목</p>
+                </div>
+
+                
+                <div class="content_pannel">                                        
+                    <!-- ranking pannel -->
+                    <div class="content_rank">
+                        <div class="rank_date">
+                            <p id="rank_date_day">잠깐!</p>
+                            <p id="rank_date_time">데이터 수집 중입니다.</p>                            
+                        </div>
+                        
+                        <!-- 자바스크립트 코드로 10개 생성 -->
+                        <ul class="rank_set">
+                            <li class="rank_list"><span class="rank_box">1</span></li>
+                            <li class="rank_list"><span class="rank_box">2</span></li>
+                            <li class="rank_list"><span class="rank_box">3</span></li>
+                            <li class="rank_list"><span class="rank_box">4</span></li>
+                            <li class="rank_list"><span class="rank_box">5</span></li>
+                            <li class="rank_list"><span class="rank_box">6</span></li>
+                            <li class="rank_list"><span class="rank_box">7</span></li>
+                            <li class="rank_list"><span class="rank_box">8</span></li>
+                            <li class="rank_list"><span class="rank_box">9</span></li>
+                            <li class="rank_list"><span class="rank_box">10</span></li>
+                        </ul>     
+                    </div>
+
+    
+                    <!-- description pannel -->
+                    <div class="content_description">
+                        <div class="description_head">
+                            <p>뭔일이람?</p>                            
+                        </div>
+                        <div class="description_body">
+                            <p id="description_msg">
+
+                            </p>
+                        </div>
+
+                        <hr />
+                        <div class="empty_area"></div>
+
+
+                        <!-- comment pannel -->
+                        <div class="description_comment">                                                                             
+                            <form class="comment_input_area" action="" method="post">
+                                <p id="comment_input_name" class="comment_input"></p>
+                                <div class="comment_input">
+                                    <input id="comment_input_content" type="text" placeholder="내용을 입력해주세요." size="35"/>
+                                    <input class="comment_input fontAwesome" type="submit" value="&#xf1d8;" />
+                                </div>                                                            
+                            </form>
+
+                            <div class="empty_area"></div>
+                            <hr />
+                            
+                            
+                            <div class="comment_dp_area">
+                                <!-- 코멘트 데이터 받아와서 붙임 -->
+                                <div class="comment">
+                                    <p id="comment_name"></p>
+                                    <p id="comment_content"></p>
+                                </div>                                                                                      
+                            </div>
+                        </div>
+                    </div>
+
+                </div>                
+            </div>
+        </article>
+
+
+
+
+        <!-- footer -->
+        <footer>
+            <div class="footer_inner">
+                <img src="https://d2hmp4n7p97ldw.cloudfront.net/assets/logo/likelion-white-a930fbcdf3042a50ba882ece9c02f43536971297a8e143e212d9b92d653bfa44.png"/>
+            </div>
+
+            <div class="footer_inner">                
+                <a href="http://jinbroing.tistory.com/" target="_blank"><i class="fa fa-pencil-square" aria-hidden="true"></i></a>
+                <a href="https://www.facebook.com/jinbroyo" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>                
+            </div>
+
+            <div class="footer_inner">                
+                <p>Copyright © Jinbro. All Rights Reserved.</p>
+            </div>
+        </footer>   
+
+
+        <script src="https://use.fontawesome.com/37c08f7c40.js"></script>
+        <script>
+            /* 기본값으로는 nav_nonde_clicked를 지정해뒀다가 삭제하고 nav_clicked를 지정 
+            let url = location.href.split('/');
+            let tail = url[url.length-1];
+            if(tail === ''){
+                tail = 'home';
+            }
+
+            홈 대비해서 공백일 때 home으로 변경설정해주기(nav_home)
+            let target = document.getElementById('nav_' + tail).classList; 
+            target.add('nav_clicked');   
+            */
+
+                            
+        </script>
+    </body>
+</html>

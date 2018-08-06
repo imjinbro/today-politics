@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">		
+		<!-- IE -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	
+		<link rel='shortcut icon' type='image/x-icon' href='/images/favicon.ico' />
+		<title>정시, 정치 알아가는 시간</title>
+       	<link rel="stylesheet" href="/stylesheets/style.css">            
+	</head>
+    <body>        
+        <!-- header -->
+        <header>
+            <div id="logo">
+                <img src="/images/title.png" >
+            </div>
+        </header>
+        
+
+        <!-- nav -->
+        <nav>
+            <ul id="nav_menu">
+                <li class="nav_target"><a href="/" id="nav_home">홈</a></li>
+                <li class="nav_target"><a href="" id="nav_archive">북마크</a></li>
+
+				<% if(isLogin) { %>
+                	<li class="nav_target"><button class="btn_sign" id="nav_signout" onclick="signOut()">로그아웃</button></li> 
+				<% } else { %>
+					<li class="nav_target"><a href="/user/signin" class="btn_sign" id="nav_signin">로그인</a></li> 
+				<% } %>
+            </ul>
+        </nav>

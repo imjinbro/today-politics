@@ -1,0 +1,116 @@
+<% include templete/top %>
+
+		<!-- body : 랭킹, 설명 -->
+        <article>                   
+            <!-- content : ranking, description -->
+            <div id="content">                
+                <div class="content_top">
+                    <h2>대제목</h2>                    
+                    <hr />
+                    <p>소제목</p>
+                </div>
+
+                <div class="content_pannel">
+                    <div class="content_top_pannel">
+						<!-- timer gage -->
+						<div id="content_timer_gage"></div>
+
+						<!-- timer msg -->
+                    	<div class="content_timer">
+							핫키워드 랭킹 업데이트 <span id="timer_hour"></span>시간 <span id="timer_minute"></span>분 남았습니다 (<span id="timer_percent">0</span>%)
+						</div>  
+                    </div>
+
+                    <div class="content_bottom_pannel">
+                        <!-- ranking pannel -->
+                        <div class="content_rank">
+                            <div class="rank_date">
+                                <p class="rank_date_today"><span id="rank_date_date"><%= date %>.</span>(<span id="rank_date_day"><%= day %></span>)</p>
+                                <p class="rank_date_standard"><span id="rank_date_time"><%= time %></span>:00 기준</p>
+                            </div>
+                           
+                            <ul class="rank_set">      
+                                 <% for(let i=0; i<words.length; i++) { %> 
+                                    <li class="rank_list"><span class="rank_box"><%= i+1 %></span> <span id='rank_word_<%= i %>' ><%= words[i] %></span> </li>
+                                <% } %>
+                            </ul>     
+                        </div>
+
+        
+                        <!-- description pannel -->
+                        <div class="content_description">
+							<div id="archive_btn"> 
+								<img src="/images/bookmark.png" />
+							</div>	
+
+
+                            <div class="description_head">
+                                <p>설명 그리고 반응</p>
+                            </div>
+                            <div class="description_body">
+                                <p id="description_msg">
+									<%= description %>
+                                </p>
+                            </div>
+
+                            <hr />
+                            <div class="empty_area"></div>
+
+
+                            <!-- comment pannel -->
+                            <div class="description_comment">                                                                             
+                                <div class="comment_input_area">
+									<input id="comment_conn_id" type="hidden" value="<%= rank_id %>" />
+									<div class="comment_img">
+										<img id="comment_input_img" class="comment_input" src="/images/none_user.png" />
+									</div>
+                                    <input id="comment_input_name" class="comment_input" type="hidden" value=""/>
+                                    <div class="comment_input">
+                                        <input onkeypress="InputComment(event)" id="comment_input_content" type="text" placeholder="내용을 입력해주세요." size="35"/ required>
+                                    </div>                                                            
+                                </div>
+
+                                <div class="empty_area"></div>
+                                <hr />
+                              
+                                <div class="comment_dp_area">
+									<% if(isComment) { %>
+										<% for(let i=0; i<comment_user.length; i++) { %>
+											<div id="comment_<%= comment_id[i] %>" class="comment">
+												<p id="comment_name"><%= comment_user[i] %></p>
+												<div class="comment_content_pannel">
+													<p id="comment_content_<%= comment_id[i] %>" class="comment_content"><%= comment_content[i] %></p>
+													<div id="comment_modify_pannel_<%= comment_id[i] %>" class="comment_modify_pannel" style="display: none;">
+														<input id="comment_modify_content_<%= comment_id[i] %>" class="comment_modify_input" type="text" value="<%= comment_content[i] %>">
+													</div>
+												</div>
+												<div id="comment_set_pannel">
+													<input onclick="ModifyToggle(this)" type="button" id="comment_modify_<%= comment_id[i] %>" class="comment_ctl_btn fontAwesome" value="&#xf013;">
+													<input onclick="DeleteComment(this)" type="button" id="comment_delete_<%= comment_id[i] %>" class="comment_ctl_btn fontAwesome" value="&#xf00d;">
+												</div>
+											</div>
+										<% } %> 
+									<% } %>
+
+
+									<div id="comment_see"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div><!-- end content-bottom-pannel -->
+                </div> <!-- end content-pannel -->
+
+            </div> <!-- end content -->
+        </article>
+
+<!-- time-diff -->
+<script src="/javascripts/index/time_diff.js"></script>
+<!-- comment -->
+<script src='/javascripts/index/comment.js'></script>
+<!-- bookmark -->
+<script src='/javascripts/index/bookmark.js'></script>
+
+   
+<% include templete/bottom %>
+

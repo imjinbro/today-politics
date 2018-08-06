@@ -1,0 +1,25 @@
+{
+    "host": "ec2-13-124-151-227.ap-northeast-2.compute.amazonaws.com",
+    "port": 22,
+    "username": "master",
+    "password": null,
+    "protocol": "sftp",
+    "agent": null,
+    "privateKeyPath": "/Users/jinbro/jinbro-nodejs.pem",
+    "passphrase": null,
+    "passive": false,
+    "interactiveAuth": false,
+    "remotePath": "/home/master/politics-hot-keywords",
+    "uploadOnSave": false,
+    "syncMode": "update",
+    "watcher": {
+        "files": false,
+        "autoUpload": false,
+        "autoDelete": false
+    },
+    "ignore": [
+        "**/.vscode/**",
+        "**/.git/**",
+        "**/.DS_Store"
+    ]
+}

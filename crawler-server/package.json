@@ -1,0 +1,21 @@
+{
+  "name": "crawler",
+  "version": "0.0.1",
+  "description": "hot-politic-keyword-crawler",
+  "main": "analysis-insert.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node analysis.js"
+  },
+  "author": "jinbro",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "freq": "^0.1.5",
+    "iconv-lite": "^0.4.18",
+    "mecab-ya": "^0.1.1",
+    "moment": "^2.18.1",
+    "mysql": "^2.14.1",
+    "request": "^2.81.0"
+  }
+}

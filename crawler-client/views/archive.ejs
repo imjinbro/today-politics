@@ -1,0 +1,263 @@
+<% include templete/top %>
+
+<article>
+	<div class="archive_context">
+		<div class="archive_pannel">
+			<!-- condition pannel -->
+			<div class="archive_condition_pannel">
+				<div class="archive_condition">
+					<div class="archive_condition_title">랭킹기간</div>
+					<div class="archive_condition_radio">
+						<div id="rank_period">
+							<input id="period1" type="radio" value="15" name="period"><label for="period1">15일</label>
+							<input id="period2" type="radio" value="30" name="period"><label for="period2">1개월</label>
+							<input id="period3" type="radio" value="90" name="period"><label for="period3">3개월</label>
+							<input id="period4" type="radio" value="0" name="period" checked><label for="period4">전체</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="archive_condition">
+					<div class="archive_condition_title">표시갯수</div>
+					<div class="archive_condition_radio">
+						<div id="dp_number">
+							<input id="dp_num1" type="radio" value="5" name="dpNum"><label for="dp_num1">5개</label>
+							<input id="dp_num2" type="radio" value="10" name="dpNum"><label for="dp_num2">10개</label>
+							<input id="dp_num3" type="radio" value="20" name="dpNum"><label for="dp_num3">20개</label>
+							<input id="dp_num4" type="radio" value="999" name="dpNum" checked><label for="dp_num4">전체</label>
+						</div>
+					</div>
+				</div>
+
+				<!-- submit -->
+				<div class="archive_condition_btn">
+					<input id="archive_condition_submit" type="button" value="검색" onclick="searchArchive()">
+				</div>
+			</div>
+
+			<!-- result pannel -->
+			<div class="archive_res_pannel">
+				<!-- result left pannel -->
+				<div class="archive_res_list"></div>
+				
+				<!--- result right pannel -->
+				<div class="archive_res_selected">
+					<div class="archive_show_res">
+						<p id="archive_show_res_title">설명 그리고 반응</p>
+						<p id="archive_show_res_descript"></p> 
+
+						<div class="divider">
+							<div class="empty_area"></div>
+							<hr>
+							<div class="empty_area"></div>
+						</div>
+
+						<div class="archive_show_res_comment_pannel"></div>
+
+					</div>	
+
+					<div id="archive_none_res">
+						<p id="archive_none_msg">저장해둔 랭킹을 검색해보세요!</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</article>
+
+<script>
+function detailArchive(e){
+	document.querySelector('.archive_show_res_comment_pannel').innerHTML = '';
+
+	if(document.getElementById('archive_none_msg').style.display === ''){
+		document.getElementById('archive_none_msg').style.display = 'none';
+		document.querySelector('.archive_show_res').style.display = 'flex';	
+	}
+
+	if(document.querySelector('.archive_show_res_comment_pannel').innerHTML !== ''){
+		document.querySelector('.archive_show_res_comment_pannel').innerHTML = '';
+	} 
+		
+
+	let target = e.target.getAttribute('id').split('_');
+	let id = target[target.length-1];
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', '/archive/' + id, true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200){
+			let res = JSON.parse(xhr.responseText);
+
+			if(res.isSuccess){
+				let resultArr = res.result[0];
+			
+				if(resultArr.description === ''){
+					document.getElementById('archive_show_res_descript').innerHTML = '입력되지않았습니다';
+				} else {
+					document.getElementById('archive_show_res_descript').innerHTML = resultArr.description;
+				}
+	
+				if(resultArr.name) {			
+					document.querySelector('.divider').style.display = 'block';
+
+					let parentNode = document.querySelector('.archive_show_res_comment_pannel');
+					let nameArr = resultArr.name.split('-');				
+					let contentArr = resultArr.content.split('-');
+
+					for(let i=0; i<nameArr.length; i++){
+						let comment = document.createElement('div');
+						comment.setAttribute('class', 'archive_show_res_comment');
+			
+						let comment_name = document.createElement('p');
+						comment_name.setAttribute('class', 'archive_comment_name');
+						comment_name.innerHTML = nameArr[i];					
+
+						let comment_content = document.createElement('p');
+						comment_content.setAttribute('class', 'archive_comment_content');
+						comment_content.innerHTML = contentArr[i];
+
+						comment.appendChild(comment_name);
+						comment.appendChild(comment_content);
+
+						parentNode.appendChild(comment);
+					}
+				} else {
+					document.querySelector('.divider').style.display = 'none';
+				}
+
+ 
+			} else {
+				alert(res.msg);
+			}
+		}
+	};
+
+	xhr.send();
+}
+
+
+function searchArchive(){
+	let period_target = document.getElementsByName('period');
+	let limit_target = document.getElementsByName('dpNum');
+	let period;
+	let limit;
+
+	for(let i=0; i<period_target.length; i++){
+		if(period_target[i].checked){
+			period = period_target[i].value;
+
+			break;
+		}
+	}
+	
+	for(let i=0; i<limit_target.length; i++){
+		if(limit_target[i].checked){
+			limit = limit_target[i].value;
+
+			break;
+		}
+	}
+
+	let xhr = new XMLHttpRequest();
+	xhr.open('POST', '/archive/search', true);
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+			let result = JSON.parse(xhr.responseText);
+
+			if(result){
+				document.getElementById('archive_none_msg').innerHTML = result.msg;
+
+				if(result.isSuccess){
+					let parentNode = document.querySelector('.archive_res_list');
+					let resultArr = result.result;
+
+					parentNode.innerHTML = '';
+
+					for(let i=0; i<resultArr.length; i++){
+						let item_pannel = document.createElement('div');
+						item_pannel.setAttribute('id', 'archive_item_' + resultArr[i].id);
+						item_pannel.setAttribute('class', 'archive_res_item_pannel');
+
+						let item = document.createElement('div');
+						item.setAttribute('class', 'archive_res_item');
+
+						let time_pannel = document.createElement('div');
+						time_pannel.setAttribute('class', 'archive_res_item_time_pannel');
+
+
+						/* add X button */
+						let list_remove_btn = document.createElement('button');
+						list_remove_btn.setAttribute('id', resultArr[i].id);
+						list_remove_btn.setAttribute('class', 'archive_res_item_rm');	
+						list_remove_btn.innerHTML = '북마크 제거';
+						list_remove_btn.addEventListener('click', function(e){
+							deleteArchive(e.target.getAttribute('id'));
+						});
+
+						let time = document.createElement('p');
+						time.setAttribute('id', 'archive_res_item_time_'+ resultArr[i].id);
+						time.innerHTML = resultArr[i].time.split('T')[0];
+
+						time_pannel.appendChild(time);
+						time_pannel.appendChild(list_remove_btn);
+
+
+						let words_pannel = document.createElement('div');
+						words_pannel.setAttribute('class', 'archive_res_item_words_pannel');
+						
+						let words = document.createElement('p');
+						words.setAttribute('id', 'archive_res_item_words_' + resultArr[i].id);
+						words.setAttribute('class', 'archive_res_item_words');
+						words.innerHTML = resultArr[i].words;
+						words.addEventListener('click', detailArchive);
+						words.addEventListener('mouseover', function(){
+							document.getElementById('archive_none_msg').innerHTML = '클릭!';
+						});
+						words.addEventListener('mouseleave', function(){
+							document.getElementById('archive_none_msg').innerHTML = '랭킹 단어칸을 클릭하면 그 날의 기록을 자세히 볼 수 있어요..!';
+						});
+			
+
+						words_pannel.appendChild(words);	
+
+						item.appendChild(time_pannel);
+						item.appendChild(words_pannel);
+
+						item_pannel.appendChild(item);
+						
+						parentNode.appendChild(item_pannel);
+					}
+				}/* end isSuccess */
+			}	
+	
+		}
+	};  	
+
+	if(period && limit)	{
+		xhr.send(`period=${period}&limit=${limit}`);
+	} 
+}
+
+
+function deleteArchive(id){
+	let xhr = new XMLHttpRequest();
+	xhr.open('DELETE', '/archive/' + id, true);
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200){
+			let result = JSON.parse(xhr.responseText);
+			if(result.isSuccess){
+				document.getElementById('archive_item_' + id).style.display = 'none';
+			} else {
+				alert(result.msg);
+			}
+
+		}
+	};
+
+	xhr.send();
+}
+</script>
+
+<% include templete/bottom %>
